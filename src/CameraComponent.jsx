@@ -135,7 +135,13 @@ const CameraComponent = () => {
             <br />
             <br />
             <h2></h2>
-            Instructions: {response?.instructions && response.instructions}
+            Instructions:{' '}
+            {response?.instructions &&
+              response.instructions.map((instruction, index) => (
+                <li key={index}>
+                  Step {index + 1}: {instruction}
+                </li>
+              ))}
           </>
         )}
       </div>
