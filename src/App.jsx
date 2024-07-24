@@ -1,4 +1,3 @@
-import AIComponent from './AIComponent'
 import CameraComponent from './CameraComponent'
 
 const App = () => {

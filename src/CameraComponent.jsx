@@ -3,16 +3,12 @@ import OpenAI from 'openai'
 import Webcam from 'react-webcam'
 import axios from 'axios'
 const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+console.log('hello', apiKey)
 const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
 const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
 import './CameraComponent.css'
 
 const CameraComponent = () => {
-  const openai = new OpenAI({
-    apiKey: apiKey,
-    dangerouslyAllowBrowser: true,
-  })
-
   const webcamRef = useRef(null)
   const [imageSrc, setImageSrc] = useState(null)
   const [response, setResponse] = useState(null)
@@ -34,6 +30,11 @@ const CameraComponent = () => {
   }
 
   async function promptAi(imageUrl) {
+    const openai = new OpenAI({
+      apiKey: apiKey,
+      dangerouslyAllowBrowser: true,
+    })
+
     const response = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
