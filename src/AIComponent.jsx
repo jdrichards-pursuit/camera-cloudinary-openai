@@ -1,15 +1,36 @@
 import { useEffect, useState } from 'react'
 import OpenAI from 'openai'
 const apiKey = import.meta.env.OPENAI_API_KEY
-const openai = new OpenAI({
-  apiKey,
-  dangerouslyAllowBrowser: true,
-})
 
 function AIComponent() {
   const [response, setResponse] = useState(null)
+
+  // function to read the ingredients and instructions out loud using the browser's speech synthesis api
+  function handleRead() {
+    // to test you could replace the argument for new SpeechSynthesisUtterance argument with a string that you want read out loud
+    window.speechSynthesis.speak(
+      new SpeechSynthesisUtterance(response.ingredients.join('/n'))
+    )
+    window.speechSynthesis.speak(
+      new SpeechSynthesisUtterance(response.instructions)
+    )
+  }
+
+  function handlePause() {
+    window.speechSynthesis.pause()
+  }
+
+  function handleResume() {
+    window.speechSynthesis.resume()
+  }
+
   useEffect(() => {
     async function main() {
+      const openai = new OpenAI({
+        apiKey,
+        dangerouslyAllowBrowser: true,
+      })
+
       const response = await openai.chat.completions.create({
         model: 'gpt-4o',
         messages: [
@@ -66,6 +87,17 @@ function AIComponent() {
           <br />
           <h2></h2>
           Instructions: {response?.instructions && response.instructions}
+          <div>
+            {' '}
+            <button
+              style={{ width: '160px', height: '40px' }}
+              onClick={handleRead}
+            >
+              Read Recipe Out Loud
+            </button>
+            <button onClick={handlePause}>Pause</button>
+            <button onClick={handleResume}>Resume</button>
+          </div>
         </>
       )}
     </div>
