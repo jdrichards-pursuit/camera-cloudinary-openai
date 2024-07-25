@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
 import OpenAI from 'openai'
-const apiKey = import.meta.env.OPENAI_API_KEY
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY
 
 function AIComponent() {
   const [response, setResponse] = useState(null)
 
   // function to read the ingredients and instructions out loud using the browser's speech synthesis api
   function handleRead() {
-    // to test you could replace the argument for new SpeechSynthesisUtterance argument with a string that you want read out loud
+    // this reads from the response object that is set in state
     window.speechSynthesis.speak(
       new SpeechSynthesisUtterance(response.ingredients.join('/n'))
     )
     window.speechSynthesis.speak(
       new SpeechSynthesisUtterance(response.instructions)
     )
-  }
+
 
   function handlePause() {
     window.speechSynthesis.pause()
